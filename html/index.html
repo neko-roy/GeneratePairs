@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Pairs</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f8f8;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: #ffffff;
+            width: 100%;
+            max-width: 600px;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            color: #444;
+        }
+
+        textarea {
+            width: 100%;
+            height: 150px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+            font-size: 1rem;
+            margin-bottom: 20px;
+            background: #f9f9f9;
+            outline: none;
+        }
+
+        button {
+            background-color: #444;
+            color: #fff;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #666;
+            transform: scale(1.02);
+        }
+
+        .slot-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0;
+        }
+
+        .slot {
+            width: 150px;
+            height: 50px;
+            margin: 0 10px;
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .result {
+            margin-top: 20px;
+        }
+
+        .result p {
+            background-color: #f4f4f4;
+            padding: 10px 15px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            font-size: 1rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Generate Pairs</h1>
+        <textarea id="names" placeholder="Enter names, one per line"></textarea>
+        <button id="generate">Generate Pairs</button>
+        <div class="slot-div">
+        </div>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        document.getElementById('generate').addEventListener('click', () => {
+            const namesInput = document.getElementById('names').value.trim();
+            const resultDiv = document.getElementById('result');
+            const slotsContainer = document.querySelector('.slot-div');
+            resultDiv.innerHTML = ''; // Clear previous results
+            slotsContainer.innerHTML = ''; // Clear previous slots
+    
+            const names = namesInput.split('\n').map(name => name.trim()).filter(name => name);
+    
+            if (names.length < 2) {
+                resultDiv.innerHTML = '<p style="color: red;">Please enter at least two names.</p>';
+                return;
+            }
+    
+            // Shuffle names array
+            for (let i = names.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [names[i], names[j]] = [names[j], names[i]];
+            }
+    
+            const pairs = [];
+            for (let i = 0; i < names.length; i += 2) {
+                if (i + 1 < names.length) {
+                    pairs.push([names[i], names[i + 1]]);
+                } else {
+                    pairs.push([names[i], null]); // Handle odd numbers
+                }
+            }
+    
+            // Dynamically create slot elements for each pair
+            pairs.forEach((pair, index) => {
+                const pairContainer = document.createElement('div');
+                pairContainer.className = 'slot-container';
+    
+                const slot1 = document.createElement('div');
+                slot1.className = 'slot';
+                slot1.id = `slot${index * 2}`;
+                slot1.textContent = '?';
+    
+                const slot2 = document.createElement('div');
+                slot2.className = 'slot';
+                slot2.id = `slot${index * 2 + 1}`;
+                slot2.textContent = '?';
+    
+                pairContainer.appendChild(slot1);
+                pairContainer.appendChild(slot2);
+                slotsContainer.appendChild(pairContainer);
+            });
+    
+            // Start animation for all slots
+            pairs.forEach((pair, index) => {
+                const slot1 = document.getElementById(`slot${index * 2}`);
+                const slot2 = document.getElementById(`slot${index * 2 + 1}`);
+                let counter = 0;
+    
+                // Start slot animation
+                const interval = setInterval(() => {
+                    slot1.textContent = names[Math.floor(Math.random() * names.length)];
+                    slot2.textContent = names[Math.floor(Math.random() * names.length)];
+                    counter++;
+                }, 100);
+    
+                // Stop animation and display the result
+                setTimeout(() => {
+                    clearInterval(interval);
+                    slot1.textContent = pair[0];
+                    slot2.textContent = pair[1] || 'No pair';
+                }, 2000); // Animation duration
+            });
+        });
+    </script>
+    
+</body>
+</html>
