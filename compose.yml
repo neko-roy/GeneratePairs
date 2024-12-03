@@ -1,0 +1,12 @@
+services:
+  web:
+    build: .
+    ports:
+      - "8080:80"
+    container_name: generate_pairs
+    environment:
+      - ENV=development  # 環境を指定（development または production）
+    volumes:
+      - ./html:/usr/share/nginx/html/home
+      - ./css:/usr/share/nginx/html/css
+      - ./js:/usr/share/nginx/html/js
