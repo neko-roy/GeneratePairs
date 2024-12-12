@@ -1,0 +1,48 @@
+@startuml sample
+hide footbox
+title sample
+
+Actor "関野さん" as u
+participant "お店1" as s1
+participant "お店2" as s2
+participant "レジ" as r
+
+
+==具材買い出しまでの流れ==
+
+alt 購入する具材が決まっているか
+  note right u
+    no
+  end note
+  u -> u: 具材を調べる
+else
+note right u
+    yes
+  end note
+  u -> s1: お店1へ移動
+end
+
+s1 -> s1: 具材がお店に置いてあるか確認
+
+alt 具材全てお店に置いてあるか
+  note right s1
+    yes
+  end note
+  s1 -> r: レジへ移動
+else
+note right s1
+    no
+  end note
+  s1 -> s2: お店2へ移動
+end
+
+note right u
+    その他作業は省略
+end note
+
+s1 -> u: 帰宅
+u -> u: 料理開始
+
+==料理の流れ==
+
+@enduml

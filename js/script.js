@@ -18,12 +18,17 @@ document.getElementById('generate').addEventListener('click', () => {
         [names[i], names[j]] = [names[j], names[i]];
     }
 
+    //pairsに[ペア１],[ペア2],[ペア3]みたいに入れている
     const pairs = [];
     for (let i = 0; i < names.length; i += 2) {
-        if (i + 1 < names.length) {
+        if (i + 2 === names.length) {
+            // 奇数人数の場合、最後の3人組を作成
+            pairs.push([names[i], names[i + 1], names[i + 2]]);
+            break;
+        } else if (i + 1 < names.length) {
             pairs.push([names[i], names[i + 1]]);
         } else {
-            pairs.push([names[i], null]); // Handle odd numbers
+            pairs.push([names[i], null]); // Handle remaining single person
         }
     }
 
@@ -44,6 +49,16 @@ document.getElementById('generate').addEventListener('click', () => {
 
         pairContainer.appendChild(slot1);
         pairContainer.appendChild(slot2);
+
+        if (pair[2]) {
+            // 3人目がいる場合は追加
+            const slot3 = document.createElement('div');
+            slot3.className = 'slot';
+            slot3.id = `slot${index * 2 + 2}`;
+            slot3.textContent = '?';
+            pairContainer.appendChild(slot3);
+        }
+
         slotsContainer.appendChild(pairContainer);
     });
 
@@ -51,12 +66,19 @@ document.getElementById('generate').addEventListener('click', () => {
     pairs.forEach((pair, index) => {
         const slot1 = document.getElementById(`slot${index * 2}`);
         const slot2 = document.getElementById(`slot${index * 2 + 1}`);
+        let slot3 = null;
+        if (pair[2]) {
+            slot3 = document.getElementById(`slot${index * 2 + 2}`);
+        }
         let counter = 0;
 
         // Start slot animation
         const interval = setInterval(() => {
             slot1.textContent = names[Math.floor(Math.random() * names.length)];
             slot2.textContent = names[Math.floor(Math.random() * names.length)];
+            if (slot3) {
+                slot3.textContent = names[Math.floor(Math.random() * names.length)];
+            }
             counter++;
         }, 100);
 
@@ -64,7 +86,10 @@ document.getElementById('generate').addEventListener('click', () => {
         setTimeout(() => {
             clearInterval(interval);
             slot1.textContent = pair[0];
-            slot2.textContent = pair[1] || 'No pair';
-        }, 2000); // Animation duration
+            slot2.innerHTML = pair[1] || '最後尾の3人は【3人1組】でプレゼントを回してね';
+            if (slot3) {
+                slot3.textContent = pair[2];
+            }
+        }, 4000); // Animation duration
     });
 });

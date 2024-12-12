@@ -1,0 +1,16 @@
+@startuml
+actor User as "ユーザー"
+
+User -> LoginPage : 「IDとパスワードを入力」
+LoginPage -> AuthServer : 「認証リクエストを送信」
+AuthServer -> Database : 「ユーザー情報を確認」
+Database --> AuthServer : 「結果を返す」
+
+alt 認証成功
+    AuthServer --> LoginPage : 「成功メッセージ」
+    LoginPage --> User : 「ダッシュボードを表示」
+else 認証失敗
+    AuthServer --> LoginPage : 「エラーメッセージ」
+    LoginPage --> User : 「エラーを表示」
+end
+@enduml
