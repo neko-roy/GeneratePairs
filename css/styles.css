@@ -10,12 +10,13 @@ body {
     background-size: cover; /* 全体を覆う */
     background-position: center; /* 中央に配置 */
     color: #333;
-    display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     padding: 20px;
 }
+
+
 
 .container {
     display: flex;
@@ -23,24 +24,32 @@ body {
     background-size: cover; /* 全体を覆う */
     background-position: center; /* 中央に配置 */
     width: 100%;
-    max-width: 1000px;
+    height: 75vh;
     padding: 40px;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
 }
 
-h1 {
-    font-size: 2.2rem;
-    margin-bottom: 20px;
-    font-weight: bold;
-    letter-spacing: 1px;
-    color: #444;
+.img {
+    display: flex; /* 中央揃えのため */
+    justify-content: center; /* 横方向中央揃え */
+    width: 100%; /* 親要素の幅を設定 */
+    height: auto; /* 親要素の高さを自動調整 */
 }
 
+.img img {
+    width: 50vw; /* ビューポート幅の25%に縮小 */
+    height: auto; /* アスペクト比を維持して高さを調整 */
+    max-width: 600px; /* 最大幅を300pxに制限 */
+    max-height: 300px; /* 最大高さを200pxに制限 */
+    object-fit: contain; /* 画像を枠内に収める */
+}
+
+
 textarea {
-    width: 400px;
-    height: 400px;
+    width: 15vw;
+    height: 40vh;
     border: 1px solid #ddd;
     border-radius: 4px;
     padding: 10px;
@@ -52,16 +61,14 @@ textarea {
 }
 
 button {
-    background-color: #444;
-    color: #fff;
-    padding: 10px 20px;
-    font-size: 1rem;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    display: block; /* ブロック要素に変更 */
-    margin-left: 0;
+    background-color: transparent; /* 背景色を透明に */
+    background-image: url('../images/ボタン.png'); /* 画像パスを確認 */
+    background-size: cover; /* 画像をボタン全体に拡大/縮小 */
+    background-repeat: no-repeat; /* 画像の繰り返しを防ぐ */
+    width: 200px; /* 画像に合わせたボタン幅 */
+    height: 60px; /* 画像に合わせたボタン高さ */
+    border: none; /* ボーダーを削除 */
+    cursor: pointer; /* カーソルをポインターに */
 }
 
 button:hover {
@@ -73,13 +80,16 @@ button:hover {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 60px 60px;
+    margin-top: 2vh;
+    margin-left: 2vw;
+    margin-right: 2vw;
+    background-color: #333;
 }
 
 .slot {
-    width: 200px;
-    height: 100px;
-    margin: 0 10px;
+    width: 12vw;
+    height: 10vh;
+    margin: 20px 20px;
     background: #f9f9f9;
     border: 1px solid #ddd;
     border-radius: 4px;
@@ -96,8 +106,21 @@ button:hover {
 }
 
 .result {
-    margin-top: 20px;
+    display: flex; /* Flexboxレイアウトを適用 */
+    flex-wrap: nowrap; /* 折り返しを防止して横一列に並べる */
+    justify-content: flex-start; /* 横方向の開始位置に揃える */
+    align-items: flex-start; /* 縦方向は上揃え */
+
+    width: 90%; /* 横幅をウィンドウの90% */
+    height: calc(100vh - 16vh); /* 上下の余白を引いた高さを設定 */
+    max-height: 80vh; /* 高さの最大値を80%に制限 */
+    /* overflow-x: auto; /* 横スクロールを有効に */
+    /* overflow-y: hidden; 縦スクロールを無効化 */
+    gap: 10px; /* 各要素間のスペース */
+    /* white-space: nowrap; アイテムが改行されないように */
 }
+
+
 
 .result p {
     background-color: #f4f4f4;

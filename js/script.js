@@ -34,6 +34,19 @@ document.getElementById('generate').addEventListener('click', () => {
 
     // Dynamically create slot elements for each pair
     pairs.forEach((pair, index) => {
+
+    let slotsContainer;
+
+    // 新しいコンテナを作成する条件
+    if (index % 3 === 0) {
+        slotsContainer = document.createElement('div');
+        slotsContainer.className = 'slots-container'; // CSS用クラス名
+        resultDiv.appendChild(slotsContainer); // 新しいコンテナを結果エリアに追加
+    } else {
+        // 直前のslotsContainerを再利用
+        slotsContainer = resultDiv.lastChild;
+    }
+        
         const pairContainer = document.createElement('div');
         pairContainer.className = 'slot-container';
 
@@ -86,7 +99,7 @@ document.getElementById('generate').addEventListener('click', () => {
         setTimeout(() => {
             clearInterval(interval);
             slot1.textContent = pair[0];
-            slot2.innerHTML = pair[1] || '最後尾の3人は【3人1組】でプレゼントを回してね';
+            slot2.innerHTML = pair[1] || '最後尾の3人は【3人1組】！';
             if (slot3) {
                 slot3.textContent = pair[2];
             }
