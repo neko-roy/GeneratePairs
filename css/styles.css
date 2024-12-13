@@ -80,16 +80,13 @@ button:hover {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 2vh;
-    margin-left: 2vw;
-    margin-right: 2vw;
-    background-color: #333;
+    margin: 0px 2vw;
 }
 
 .slot {
     width: 12vw;
     height: 10vh;
-    margin: 20px 20px;
+    margin: 20px 0px;
     background: #f9f9f9;
     border: 1px solid #ddd;
     border-radius: 4px;
